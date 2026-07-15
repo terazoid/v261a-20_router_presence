@@ -13,6 +13,7 @@ from homeassistant.const import (
     Platform,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_CONSIDER_HOME, DEFAULT_CONSIDER_HOME, DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -33,9 +34,16 @@ class V261A20RouterPresenceCoordinator(DataUpdateCoordinator):
     what implements the `consider_home` grace period in device_tracker.py.
     """
 
-    def __init__(self, hass: HomeAssistant, client: RouterClient, consider_home: int) -> None:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        client: RouterClient,
+        consider_home: int,
+    ) -> None:
         self.client = client
         self.consider_home = consider_home
+        self.entry_id = entry.entry_id
         self.last_seen: dict[str, datetime] = {}
         super().__init__(
             hass,
@@ -81,7 +89,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     consider_home = entry.options.get(CONF_CONSIDER_HOME, DEFAULT_CONSIDER_HOME)
     scan_interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
 
-    coordinator = V261A20RouterPresenceCoordinator(hass, client, consider_home)
+    device_registry = dr.async_get(hass)
+    device_registry.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        identifiers={(DOMAIN, entry.entry_id)},
+        name=f"OptiXstar v261a-20 ({entry.data[CONF_HOST]})",
+        manufacturer="Huawei",
+        model="OptiXstar v261a-20",
+    )
+
+    coordinator = V261A20RouterPresenceCoordinator(hass, entry, client, consider_home)
     coordinator.update_interval = timedelta(seconds=scan_interval)
 
     await coordinator.async_config_entry_first_refresh()

@@ -14,6 +14,7 @@ from __future__ import annotations
 from homeassistant.components.device_tracker import ScannerEntity, SourceType
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -77,3 +78,13 @@ class RouterScannerEntity(CoordinatorEntity, ScannerEntity):
         if dev and dev.get("HostName"):
             return dev["HostName"]
         return self._mac
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        dev = self.coordinator.data.get(self._mac) or {}
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._mac)},
+            connections={("mac", self._mac)},
+            name=dev.get("HostName") or self._mac,
+            via_device=(DOMAIN, self.coordinator.entry_id),
+        )
