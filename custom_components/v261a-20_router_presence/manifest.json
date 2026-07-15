@@ -1,0 +1,14 @@
+{
+  "domain": "router_presence",
+  "name": "Router Presence (Huawei OptiXstar v261a-20)",
+  "documentation": "https://github.com/terazoid/v261a-20_router_presence",
+  "issue_tracker": "https://github.com/terazoid/v261a-20_router_presence/issues",
+  "requirements": [
+    "requests>=2.28.0"
+  ],
+  "codeowners": [
+    "@terazoid"
+  ],
+  "version": "0.1.0",
+  "iot_class": "local_polling"
+}
