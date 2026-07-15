@@ -1,6 +1,5 @@
 {
-  "name": "Huawei OptiXstar v261a-20 router",
-  "hide_default_branch": true,
+  "name": "Huawei OptiXstar v261a-20 Router Presence",
   "render_readme": false,
-  "homeassistant": "2023.8"
+  "homeassistant": "2024.1.0"
 }

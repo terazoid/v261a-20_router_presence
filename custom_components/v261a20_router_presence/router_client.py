@@ -1,4 +1,4 @@
-"""Blocking HTTP client for the router admin panel.
+"""Blocking HTTP client for the Huawei OptiXstar v261a-20 router admin panel.
 
 This is the same login/parsing logic from the standalone script, packaged so
 it can be called from Home Assistant's device_tracker platform. All methods

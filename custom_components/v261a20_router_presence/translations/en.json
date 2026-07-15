@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Huawei OptiXstar v261a-20 Router Presence",
+        "description": "Enter your v261a-20 admin credentials. Used to log in and read the connected-clients list for MAC-based presence detection.",
+        "data": {
+          "host": "Host",
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect or log in. Check the host, username, and password."
+    },
+    "abort": {
+      "already_configured": "This router is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Huawei OptiXstar v261a-20 Router Presence Options",
+        "data": {
+          "scan_interval": "Scan interval (seconds)",
+          "consider_home": "Consider home (seconds)"
+        },
+        "data_description": {
+          "scan_interval": "How often to poll the router for connected devices.",
+          "consider_home": "How long a device stays 'home' after last seen online, to smooth over missed polls (e.g. sleeping wifi radios)."
+        }
+      }
+    }
+  }
+}
